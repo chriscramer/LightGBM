@@ -1,10 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 
-if(APPLE)
-    SET(CMAKE_CXX_COMPILER "g++-6")
-    SET(CMAKE_C_COMPILER "gcc-6")
-endif()
-
 PROJECT(lightgbm)
 
 OPTION(USE_MPI "MPI based parallel learning" OFF)
@@ -25,7 +20,7 @@ endif(USE_MPI)
 
 if(USE_OPENMP)
     find_package(OpenMP REQUIRED)
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}${OpenMP_CXX_EXTRA_FLAGS}")
 else()
     # Ignore unknown #pragma warning
     if( (CMAKE_CXX_COMPILER_ID MATCHES "[cC][lL][aA][nN][gG]")
@@ -34,8 +29,10 @@ else()
     endif()
 endif(USE_OPENMP)
 
+
+
 if(UNIX OR MINGW OR CYGWIN)
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -O3 -Wall -std=c++11")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
 if(MSVC)

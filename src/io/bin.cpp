@@ -355,7 +355,8 @@ Bin* Bin::CreateBin(data_size_t num_data, int num_bin, double sparse_rate,
 
 Bin* Bin::CreateDenseBin(data_size_t num_data, int num_bin) {
   if (num_bin <= 16) {
-    return new Dense4bitsBin(num_data);
+    // return new Dense4bitsBin(num_data);
+    return new DenseBin<uint8_t>(num_data);
   } else if (num_bin <= 256) {
     return new DenseBin<uint8_t>(num_data);
   } else if (num_bin <= 65536) {

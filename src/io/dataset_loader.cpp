@@ -864,7 +864,10 @@ void DatasetLoader::ExtractFeaturesFromMemory(std::vector<std::string>& text_dat
           // if is used feature
           int group = dataset->feature2group_[feature_idx];
           int sub_feature = dataset->feature2subfeature_[feature_idx];
-          dataset->feature_groups_[group]->PushData(tid, sub_feature, i, inner_data.second);
+#pragma omp critical
+          {
+            dataset->feature_groups_[group]->PushData(tid, sub_feature, i, inner_data.second);
+          }
         } else {
           if (inner_data.first == weight_idx_) {
             dataset->metadata_.SetWeightAt(i, static_cast<float>(inner_data.second));
